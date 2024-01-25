@@ -1,8 +1,12 @@
-import './App.css'
+import "./App.css";
+import Home from "./pages/home";
 
 function App() {
-  return <div data-theme="cupcake" className="min-h-screen">
-  </div>
+  return (
+    <div data-theme="cupcake" className="min-h-screen">
+      <Home />
+    </div>
+  );
 }
 
-export default App
+export default App;
