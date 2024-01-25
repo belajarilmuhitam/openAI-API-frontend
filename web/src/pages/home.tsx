@@ -43,40 +43,40 @@ export default function Home() {
         }),
       });
 
-      // if (!response.body) return;
-
-      // const reader = response.body.getReader();
-      // const decoder = new TextDecoder();
-
-      // let isFinish = false;
-
-      // while (!isFinish) {
-      //   const { done, value } = await reader.read();
-      //   isFinish = done;
-
-      //   const decodedValue = decoder.decode(value);
-      //   if (!decodedValue) break;
-
-      //   setMessages((messages) => [
-      //     ...messages.slice(0, messages.length - 1),
-      //     {
-      //       role: "assistant",
-      //       content: `${messages[messages.length - 1].content}${decodedValue}`,
-      //     },
-      //   ]);
-      // }
-
       if (!response.body) return;
 
-      const decodedValue = await response.text(); // Menggunakan response.text() langsung
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
 
-      setMessages((messages) => [
-        ...messages.slice(0, messages.length - 1),
-        {
-          role: "assistant",
-          content: `${messages[messages.length - 1].content}${decodedValue}`,
-        },
-      ]);
+      let isFinish = false;
+
+      while (!isFinish) {
+        const { done, value } = await reader.read();
+        isFinish = done;
+
+        const decodedValue = decoder.decode(value);
+        if (!decodedValue) break;
+
+        setMessages((messages) => [
+          ...messages.slice(0, messages.length - 1),
+          {
+            role: "assistant",
+            content: `${messages[messages.length - 1].content}${decodedValue}`,
+          },
+        ]);
+      }
+
+      // if (!response.body) return;
+
+      // const decodedValue = await response.text(); // Menggunakan response.text() langsung
+
+      // setMessages((messages) => [
+      //   ...messages.slice(0, messages.length - 1),
+      //   {
+      //     role: "assistant",
+      //     content: `${messages[messages.length - 1].content}${decodedValue}`,
+      //   },
+      // ]);
     } catch (error) {
       console.error("Error:", error);
     }
